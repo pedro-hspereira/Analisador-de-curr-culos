@@ -469,13 +469,3 @@ if st.session_state.vagas_ptbr:
     st.subheader("💼 Vagas encontradas")
     for i, vaga in enumerate(st.session_state.vagas_ptbr, start=1):
         mostrar_vaga(vaga, i)
-        
-
-# para usar a vercel
-# api/app.py
-
-def handler(request):
-    return {
-        "statusCode": 200,
-        "body": "Hello World com Python na Vercel 🚀"
-    }
