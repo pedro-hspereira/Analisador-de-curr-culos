@@ -100,7 +100,7 @@ AREAS_EXIBICAO = [
     "Ciência/Análise de dados",
     "Cloud computing",
     "Gestão de projetos",
-    "Suporte tecnico",
+    "Suporte técnico",
 ]
 
 MAPEAMENTO_CONSULTAS = {
