@@ -208,30 +208,64 @@ def buscar_vagas(query="software developer"):
         "app_id": ADZUNA_APP_ID,
         "app_key": ADZUNA_APP_KEY,
         "what": query,
-        "results_per_page": 3
+        "results_per_page": 20
     }
 
     try:
         response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
         data = response.json()
+
     except requests.RequestException as e:
         st.error(f"Erro ao buscar vagas: {e}")
         return []
+
     except ValueError:
         st.error("Resposta inválida da API de vagas.")
         return []
 
     vagas = []
+    vagas_vistas = set()
+
     for vaga in data.get("results", []):
+
+        titulo = normalizar_texto(
+            vaga.get("title", "Sem título")
+        )
+
+        empresa = normalizar_texto(
+            vaga.get("company", {}).get(
+                "display_name",
+                "Empresa não informada"
+            )
+        )
+
+        descricao = normalizar_texto(
+            vaga.get("description", "")
+        )
+
+        link = vaga.get("redirect_url", "")
+
+        # chave única da vaga
+        chave = (
+            titulo.lower(),
+            empresa.lower()
+        )
+
+        # ignora repetidas
+        if chave in vagas_vistas:
+            continue
+
+        vagas_vistas.add(chave)
+
         vagas.append({
-            "titulo": normalizar_texto(vaga.get("title", "Sem título")),
-            "empresa": normalizar_texto(vaga.get("company", {}).get("display_name", "Empresa não informada")),
-            "descricao": normalizar_texto(vaga.get("description", "")),
-            "link": vaga.get("redirect_url", "")
+            "titulo": titulo,
+            "empresa": empresa,
+            "descricao": descricao,
+            "link": link
         })
 
-    return vagas
+    return vagas[:3]
 
 
 @st.cache_data(show_spinner=False)
