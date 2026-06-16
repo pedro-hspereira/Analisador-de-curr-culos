@@ -457,6 +457,9 @@ def mostrar_vaga(vaga, indice):
 # =========================
 st.title("🚀Envie seu currículo em PDF e descubra vagas de tecnologia que combinam com você!")
 
+st.info(
+    "🤖 Os dados do currículo enviado são processados por Inteligência Artificial (IA) para realizar a análise de perfil e sugerir vagas compatíveis."
+)
 arquivo = st.file_uploader("Envie seu currículo (PDF)", type=["pdf"])
 
 area_exibida = st.selectbox("Área desejada", AREAS_EXIBICAO)
